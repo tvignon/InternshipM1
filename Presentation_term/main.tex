@@ -1,0 +1,518 @@
+\documentclass[
+  ignorenonframetext,
+  aspectratio=169,
+  usenames,
+  dvipsnames
+]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage[pdf,all,2cell]{xy}\SelectTips{cm}{10}\SilentMatrices\UseAllTwocells
+\usepackage{amsmath, amssymb, amsfonts, amsthm, amscd, stmaryrd}
+\usepackage[T1]{fontenc}
+\usepackage{verbatim}
+\usepackage{xspace}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{hyperref}
+%\usepackage{cleveref} % must come after hyperref package
+%\usepackage{stmaryrd} % for \rightarrowtriangle
+\usepackage{rotating}
+\usepackage{tikz-cd}
+\usepackage[style=authoryear]{biblatex}
+\renewcommand*{\nameyeardelim}{\addcomma\addspace}
+
+\hypersetup{
+  colorlinks,
+  citecolor=Mahogany,
+  linkcolor=Black,
+  urlcolor=Blue}
+
+\usetikzlibrary{shapes.geometric,fit}
+\tikzset{
+   dashellipse/.style={ellipse,draw,dashed,inner sep=0.3cm,black,fit={#1}}
+}
+
+\newcounter{saveenumi}
+\newcommand{\saveitem}{\setcounter{saveenumi}{\value{enumi}}}
+\newcommand{\restoreitem}{\setcounter{enumi}{\value{saveenumi}}}
+
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\usetheme[]{metropolis}
+\usecolortheme{seahorse}
+
+\urlstyle{same} % disable monospaced font for URLs
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Pullback
+\usepackage{pigpen}
+\newcommand{\pb}{\ar@{}[dr]|<<{\text{\pigpenfont A}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Structural markup
+\newcommand{\cmt}[1]{\marginpar{#1}}
+\newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
+\newcommand{\citelong}[1]{\cite{1}} % TODO: make this actually give long citation
+\newcommand{\notable}{\textbf}
+\newcommand{\defemph}[1]{\textbf{#1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Fonts
+\newcommand{\constfont}[1]{\ensuremath{\mathsf{#1}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Styled letters
+\newcommand{\A}{{\mathcal{A}}}
+\newcommand{\B}{{\mathcal{B}}}
+\newcommand{\CC}{{\mathcal{C}}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\R}{\mathcal{R}}
+\newcommand{\ES}{\mathcal{S}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Math notation
+\newcommand{\Ty}{\constfont{Ty}}
+\newcommand{\Tm}{\constfont{Tm}}
+\newcommand{\op}{^{\mathrm{op}}}
+\newcommand{\set}{\ensuremath{\constfont{Set}}\xspace}
+\newcommand{\Fam}{\ensuremath{\constfont{Fam}}\xspace}
+\newcommand{\p}{\constfont{p}}
+\newcommand{\Tymap}[1]{\ensuremath{\Ty({#1})}}
+\newcommand{\Tmmap}[1]{\ensuremath{\Tm({#1})}}
+\newcommand{\compext}[2]{\ensuremath{{#1}.{#2}}}
+\newcommand{\compextcompare}[1][]{\Delta_{#1}}
+\newcommand{\deppr}[1]{\constfont{\pi}_{#1}}
+\newcommand{\te}{\ensuremath{\constfont{te}}}
+\newcommand{\yofunctor}[1][]{\constfont{y}_{#1}}
+\newcommand{\yotranspose}[1]{\constfront{yy}({#1})}
+\newcommand{\q}{\constfont{q}}
+\newcommand{\qmap}[2]{\ensuremath{\q({#1},{#2})}}
+\newcommand{\idtoiso}{\ensuremath{\mathsf{idtoiso}}\xspace}
+\newcommand{\iso}{\cong} % for writing e.g. f : a ≅ b
+\newcommand{\Iso}{\constfont{Iso}} % for emphasizing the set of isomorphisms, i.e. f : X → Iso(a,b)
+\newcommand{\mapfunc}[1]{\ensuremath{\mathsf{ap}_{#1}}\xspace} % Without argument
+\newcommand{\compose}[2]{\ensuremath{{#1}\cdot{#2}}}
+\newcommand{\functorcomp}[2]{\ensuremath{{#1};{#2}}}
+\newcommand{\reindex}[2]{\ensuremath{#1^* #2}}
+\newcommand{\UU}{\constfont{U}}
+
+\newcommand{\tU}{\constfont{\tilde{U}}}
+\newcommand{\ttilde}{\constfont{\tilde{\tau}}}
+\newcommand{\Jpb}[2]{\ensuremath{{#1}.{#2}}}
+\newcommand{\Jpbmor}[1]{\ensuremath{\Jpb{#1}{\circlearrowleft}}}
+\newcommand{\Jpr}[1]{\ensuremath{\p_{#1}}}
+\newcommand{\JQ}[2]{\ensuremath{\constfont{Q}({#1},{#2})}}
+\newcommand{\RC}[1]{\ensuremath{\constfont{RC}({#1})}}
+\newcommand{\preShv}[1]{\ensuremath{\constfont{PreShv}({#1})}}
+\newcommand{\etaop}{\ensuremath{\eta\op}}
+\newcommand{\stype}{\constfont{splty}}
+\newcommand{\cwf}{\constfont{cwf}}
+\newcommand{\rep}{\constfont{rep}}
+\newcommand{\relu}{\constfont{relu}}
+\newcommand{\relwku}{\constfont{relwku}}
+\newcommand{\compat}{\constfont{compat}}
+\newcommand{\qmor}{\constfont{qmor}}
+\newcommand{\termstruc}{\constfont{termstruc}}
+\newcommand{\objext}{\constfont{objext}}
+\newcommand{\diag}[1]{\delta_{#1}}
+
+%%%% for comprehension categories
+\newcommand{\dmor}[4][]{\ensuremath{\hom^{#1}_{#3}({#2},{#4})}}
+\newcommand{\dto}[3]{\ensuremath{{#1} \to_{#2} {#3}}}
+\newcommand{\dob}[2]{\ensuremath{{#1}_{#2}}}
+\newcommand{\fiber}[2]{\ensuremath{{#1}_{#2}}}
+\newcommand{\f}{\bar{f}}
+\newcommand{\g}{\bar{g}}
+\newcommand{\h}{\bar{h}}
+
+%%%% types of structure
+\newcommand{\stypeC}{\constfont{spltype}}
+\newcommand{\typeC}{\constfont{type}}
+\newcommand{\cwfC}{\constfont{cwf}}
+\newcommand{\repC}{\constfont{rep}}
+\newcommand{\reluC}{\constfont{relu}}
+\newcommand{\relwkuC}{\constfont{relwku}}
+\newcommand{\DiscCompCatC}{\constfont{disccompcat}}
+\newcommand{\ffCompCatC}{\constfont{ffcompcat}}
+\newcommand{\CompCatC}{\constfont{compcat}}
+\newcommand{\TyfromComp}[1]{\ensuremath{\overline{#1}}}
+
+%%%% categories of structures
+\newcommand{\stypecatC}{\constfont{SplType}}
+\newcommand{\cwfcatC}{\constfont{Cwf}}
+\newcommand{\repcatC}{\constfont{Rep}}
+\newcommand{\relucatC}{\constfont{Relu}}
+\newcommand{\relwkucatC}{\constfont{Relwku}}
+\newcommand{\rl}[1]{\color{red}#1\color{black}}
+\newcommand{\bl}[1]{\color{blue}#1\color{black}}
+\newcommand{\gl}[1]{\color{green}#1\color{black}}
+
+\newcommand{\pl}[1]{\color{purple}#1\color{black}}
+\newcommand{\defeq}{\vcentcolon\equiv}
+\usepackage{slashbox}
+
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Equivalence of term}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+\metroset{block=fill}
+\begin{frame}[fragile]
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+\section{CwF and SplTC Definition}
+\begin{frame}{Category with familly}
+    \metroset{block=fill}
+    \begin{block}{Definition}
+        A Category with familly : \begin{enumerate}
+          \item  $\CC$, a category
+          \item $\Ty, \Tm : \CC\op \to \set$
+          \item $\p : \Tm \to \Ty$
+          \item for each $\Gamma : \CC$ and $A : \Ty(\Gamma)$
+            \begin{enumerate}
+            \item $\Gamma.A : \CC$ and $\pi_A : \Gamma.A \to \Gamma$,
+            \item an element $\te\ A : \Tm(\Gamma.A)$, such that $\p (\te\ A) = Ty\ \pi_A\ A : \Ty(\Gamma.A)$,
+            \item and the following pullback
+              $
+                \begin{xy}
+                  \xymatrix{
+                    **[l]\yofunctor(\compext{\Gamma}{A})  \ar[r]^-{\yotranspose{\te_A}} \ar[d]_{\yofunctor(\deppr{A})}  \pb & \Tm \ar[d]^{\p}\\
+                    **[l]\yofunctor(\Gamma) \ar[r]_{\yotranspose{A}}& \Ty
+                  }
+                \end{xy}
+              $
+          \end{enumerate}
+      \end{enumerate}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Split-Type Cateogry}
+    \metroset{block=fill}
+    \begin{definition}
+        A \defemph{Split-type-category structure} on $\CC$ consists of:
+        \begin{enumerate}
+          \item for each object $\Gamma : \CC$, a set $\Tymap{\Gamma}$,
+          \item for each $\Gamma : \CC$ and $A : \Tymap{\Gamma}$, an object $\compext{\Gamma}{A} : \CC$
+           and a morphism $\deppr{A} : \compext{\Gamma}{A} \to \Gamma$,
+          \item for each map $f : \Gamma' \to \Gamma$, a  function $\_^*\ :\ \Tymap{\Gamma} \to \Tymap{\Gamma'}$ and axiom for indenty and composition, denoted $A \mapsto \reindex{f}{A} $,
+          \item for each $\Gamma$, $A : \Tymap{\Gamma}$, and $f : \Gamma' \to \Gamma$, a morphism
+            $\qmap{f}{A} : \compext{\Gamma'}{\reindex{f}{A}} \to \compext{\Gamma}{A}$ with axiom for indentiy and composition, such that 
+            \begin{tikzcd}[ampersand replacement=\&]
+              \compext{\Gamma'}{\reindex{f}{A}}
+                \ar[r, "\qmap{f}{A}"]
+                \ar[d, "\deppr{\reindex{f}{A}}"]
+                \ar[dr, phantom, "\lrcorner", very near start]
+              \& \compext{\Gamma}{A} \ar[d, "\deppr{A}"]
+              \\
+              \Gamma' \ar[r, "f"]
+              \& \Gamma
+            \end{tikzcd}
+            \saveitem
+        \end{enumerate}
+      \end{definition}  
+\end{frame}
+
+\section{Term in CwF and SplTC}
+\begin{frame}{Term definitions}
+  \metroset{block=fill}
+    \begin{columns}[T] % align columns
+        \begin{column}{.50\textwidth}
+        \begin{block}{Display Term type}
+            for each $\Gamma : \CC, A : \color{red}\Ty\ \color{black}\Gamma$, $$\color{red} tm \color{black}\ A = \sum_{(a : Tm\ \Gamma)} (p\ a = A)$$
+        \end{block}
+        \color{red}\rule{\linewidth}{4pt}
+        Category with familly
+        \end{column}%
+        \hfill%
+        \begin{column}{.50\textwidth}
+        \begin{block}{Term type}
+            for each $\Gamma : \CC, A : \color{blue}\Ty\ \color{black} \Gamma$, $$\color{blue}tm\color{black}\ A = \sum_{(s : \CC \llbracket \Gamma,\compext{\Gamma}{A} \rrbracket)} (s \circ \color{blue} \deppr{A} \color{black}= identity\ \Gamma)$$
+        \end{block}
+        \color{blue}\rule{\linewidth}{4pt}
+        Split-Type Category
+        \end{column}%ù
+        \end{columns}
+\end{frame}
+
+\section{Equivalence}
+\begin{frame}{Equivalence}
+\[ \xymatrix@C=0.5 pc@R=3ex{
+   & & & & \displaystyle \sum_{X,Y,Z} \compat_X(Y,Z) \ar@{<->}[ld]_-{\simeq} \ar@{<->}[rd]^-{\simeq}
+   \\
+   \stype(\CC) \ar@{<->}[rrr]^-{\simeq}
+   & & & \displaystyle \sum_{X : \objext(\CC)} \!\!\!\! \qmor(X) \ar[dr]
+   &
+   & \displaystyle \sum_{X : \objext(\CC)} \!\!\!\! \tmstr(X) \ar[dl] \ar@{<->}[rrr]^-{\simeq}
+   & & & \cwf(\CC)
+   \\
+   & & & & \objext(\CC)
+} \]
+\end{frame}
+
+\begin{frame}{Object Extension structure}
+  \metroset{block=fill}
+  \begin{block}{Definition}
+      A \defemph{Object extension structure} on $\CC$ consists of:
+      \begin{enumerate}
+        \item a functor $\Ty : \CC^{op} \rightarrow \set$
+        \item for each $\Gamma : \CC$ and $A : \Tymap{\Gamma}$, an object $\compext{\Gamma}{A} : \CC$
+         and a morphism $\deppr{A} : \compext{\Gamma}{A} \to \Gamma$,
+      \end{enumerate}
+    \end{block}  
+$\Rightarrow$ Only reordering form both definitions.
+\end{frame}
+
+\begin{frame}{qq-morphism structure}
+  \metroset{block=fill}
+  \begin{block}{Definition}
+      A \defemph{qq-morphism structure} on $\CC$ and $O$ an object extension structure consists of:  \\
+      for each $\Gamma$, $A : \Tymap{\Gamma}$, and $f : \Gamma' \to \Gamma$, \\ a morphism
+      $\qmap{f}{A} : \compext{\Gamma'}{\reindex{f}{A}} \to \compext{\Gamma}{A}$ with axiom for indentiy and composition, such that \\
+      \[ \begin{tikzcd}[ampersand replacement=\&]
+        \compext{\Gamma'}{\reindex{f}{A}}
+          \ar[r, "\qmap{f}{A}"]
+          \ar[d, "\deppr{\reindex{f}{A}}"]
+          \ar[dr, phantom, "\lrcorner", very near start]
+        \& \compext{\Gamma}{A} \ar[d, "\deppr{A}"]
+        \\
+        \Gamma' \ar[r, "f"]
+        \& \Gamma
+      \end{tikzcd} \]
+      \saveitem
+    \end{block}  
+$$\Rightarrow \stypeC C \thickapprox \sum_{O : \objext\ C} \qmor\ O$$
+\end{frame}
+
+\begin{frame}{Term structure}
+  \metroset{block=fill}
+  \begin{block}{Definition}
+      A \defemph{term structure} on $\CC$ and $O$ an object extension structure consists of:  \\
+      \begin{enumerate}
+        \item a presheaf $\Tm : \CC^{op} \rightarrow \set$, a natural transformation $p : \Tm \rightarrow \Ty$
+        \item for each $\Gamma : \CC$ and $A : \Ty(\Gamma)$
+        \begin{enumerate}
+        \item $\Gamma.A : \CC$ and $\pi_A : \Gamma.A \to \Gamma$,
+        \item an element $\te\ A : \Tm(\Gamma.A)$, such that $\p (\te\ A) = Ty\ \pi_A\ A : \Ty(\Gamma.A)$,
+        \item and the following pullback
+          $
+            \begin{xy}
+              \xymatrix{
+                **[l]\yofunctor(\compext{\Gamma}{A})  \ar[r]^-{\yotranspose{\te_A}} \ar[d]_{\yofunctor(\deppr{A})}  \pb & \Tm \ar[d]^{\p}\\
+                **[l]\yofunctor(\Gamma) \ar[r]_{\yotranspose{A}}& \Ty
+              }
+            \end{xy}
+          $
+      \end{enumerate}
+      \end{enumerate}
+    \end{block}  
+$$\Rightarrow \cwfC C \thickapprox \sum_{O : \objext C}\termstruc\ O$$
+\end{frame}
+
+\begin{frame}{Equivalence}
+  \[ \xymatrix@C=0.5 pc@R=3ex{
+     & & & & \displaystyle \rl{\sum_{X,Y,Z} \compat_X(Y,Z)} \ar@{<->}[ld]_-{\simeq} \ar@{<->}[rd]^-{\simeq}
+     \\
+     \stype(\CC) \ar@{<->}[rrr]^-{\simeq}
+     & & & \displaystyle \sum_{X : \objext(\CC)} \!\!\!\! \qmor(X) \ar[dr]
+     &
+     & \displaystyle \sum_{X : \objext(\CC)} \!\!\!\! \tmstr(X) \ar[dl] \ar@{<->}[rrr]^-{\simeq}
+     & & & \cwf(\CC)
+     \\
+     & & & & \objext(\CC)
+  } \]
+  \end{frame}
+
+\begin{frame}{Compatibility}
+  \metroset{block=fill}
+  \begin{block}{Compatibility}
+    a qq-morphism structure $Q$ and a term structre $T$ over $O$ are compatible if $$\rl{te} (f^*\ A) = \bl{q}(f,A)^*\rl{te}(A)$$  
+   \end{block}
+   \begin{block}{term-compatibility}
+for each qq-morphism structure $Q$ over $O$ , We can define $T^C := \sum_{(T : term\_structure\ O)} , compatible\ T\ Q.$
+   \end{block}
+   \begin{block}{qq-compatibility}
+    for each term structure $T$ over $O$ , We can define $Q^C := \sum_{(Q : qq\_morphism\_structure\ O)} , compatible\ T\ Q.$
+   \end{block}
+\end{frame}
+
+\begin{frame}{Compatibility}
+  \metroset{block=fill}
+  \begin{block}{weq\_term\_qq}
+      $qq\_morphism\_structure O \simeq term\_structure O$
+  \end{block}
+  \begin{block}{suffle}
+    $\sum_{(T : term\_structure\ O)} ,Q^C \simeq \sum_{(Q : qq\_morphism\_structure\ O)} , T^C$
+  \end{block}
+  \begin{block}{forget\_compat\_qq}
+    $\sum_{(T : term\_structure\ O)} , Q^C \simeq  term\_structure\ O$
+  \end{block}
+  \begin{block}{forget\_compat\_qq}
+    $\sum_{(Q : qq\_morphism\_structure\ O)} , T^C \simeq  qq\_morphism\_structure\ O$
+  \end{block}
+  $$\text{Proof : By showing that $T^C$ , $Q^C$ are contractible}$$
+\end{frame}
+\begin{frame}{Canonical term\_stucture form a qq\_structure}
+ \begin{itemize}
+   \item Same object structure so same $Ty$,$\_.\_$,$\pi_{\_}$
+   \item For all $\Gamma : \CC$, $\bl{Tm} = \prod_{\Gamma : \CC} \sum_{A : Ty\ \Gamma }\sum_{s:  \CC \llbracket \Gamma,\compext{\Gamma}{A} \rrbracket)} s \circ \deppr{A} = identity\ \Gamma$
+   \item For all $\Gamma,\Delta : \CC$, $f : \CC \llbracket \Gamma,\Delta \rrbracket$ , $Tm\ f := (fun\ A => A,, fun (s,,ids) => pb\_of\_section (qq_\pi\_Pb\ Q)\ ids)$
+   \item So with that, $Tm : \CC^{op} \rightarrow \set$
+   \item For all $\Gamma : \CC$, $a : Tm\ \Gamma$, $p\ a = pr1\ a$, natural transformation.
+   \item $te\ A = (\pi_A^*\ A, q(\pi_A,A)\cric \pi_A )$ 
+ \end{itemize}
+\end{frame}
+
+
+\section{Term and Type equivalence \\ \small With a split type structure as Context}
+\begin{frame}{Context}
+  \begin{itemize}
+    \item a Category $\CC$
+    \item A Split Type Structure over $\CC$, $\bl{SC}$
+    \item The asssociate object extension structure $O$
+    \item the associate qq structure $\bl{Q}$
+    \item the associate term structre $\rl{T}$
+    \item the associate Category with familly structure $\rl{CWF}$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Type Equivalence}
+  \metroset{block=fill}
+  \begin{block}{reind\_type}
+    $$reind\_type\ \{\Gamma \Delta :\CC\}\  (f :\CC \llbracket \Delta,\Gamma \rrbracket): Ty\ \Gamma \rightarrow Ty\ \Delta$$
+  \end{block}
+  \begin{itemize}
+    \item Almost everything work
+    \item even the reindextion just by reflexivity 
+    \item and just by reflexivity
+    \item Since $\rl{Ty} \defeq \bl{Ty}$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Type Equivalence}
+  \metroset{block=fill}
+  \begin{block}{What doesn't work (for now)}
+  \begin{itemize}
+    \item Context extension doesn't work 
+    \item $\bl{\Gamma.A}$ can be interpreted as a element of type $pr1\ CWF$ but not clear that $\bl{\Gamma.A} = \rl{\Gamma.A}$
+    \item So, Type familly suffer for the same problem
+    \item $\bl{\Ty\ \Gamma.A} = \rl{Ty}\ \bl{\Gamma.A}$ but not $\bl{\Ty\ \Gamma.A} = \rl{Ty\ \Gamma.A}$
+    \item So, Dependants Types also doesn't work (same problem)
+  \end{itemize}
+  \end{block}
+\end{frame}
+
+\end{frame}
+\begin{frame}{Term definitions -- callback}
+  \metroset{block=fill}
+    \begin{columns}[T] % align columns
+        \begin{column}{.50\textwidth}
+        \begin{block}{Display Term type}
+            for each $\Gamma : \CC, A : \color{red}\Ty\ \color{black}\Gamma$, $$\color{red} tm \color{black}\ A = \sum_{(a : Tm\ \Gamma)} (p\ a = A)$$
+        \end{block}
+        \color{red}\rule{\linewidth}{4pt}
+        Category with familly
+        \end{column}%
+        \hfill%
+        \begin{column}{.50\textwidth}
+        \begin{block}{Term type}
+            for each $\Gamma : \CC, A : \color{blue}\Ty\ \color{black} \Gamma$, $$\color{blue}tm\color{black}\ A = \sum_{(s : \CC \llbracket \Gamma,\compext{\Gamma}{A} \rrbracket)} (s \circ \color{blue} \deppr{A} \color{black}= identity\ \Gamma)$$
+        \end{block}
+        \color{blue}\rule{\linewidth}{4pt}
+        Split-Type Category
+        \end{column}%ù
+        \end{columns}
+\end{frame}
+\begin{frame}{Term form a qq-structure}
+  \metroset{block=fill}
+  \begin{block}{tm\_form\_qq}
+    $$\bl{Tm} = \prod_{\Gamma : \CC} \sum_{A : Ty\ \Gamma }\sum_{s:  \CC \llbracket \Gamma,\compext{\Gamma}{A} \rrbracket)} s \circ \deppr{A} = identity\ \Gamma$$
+  \end{block}
+  $$\Rightarrow \text{Create a intermediate display term type with \bl{Tm}}$$
+  \begin{block}{tm\_inter}
+    $$\bl{tm\_inter}\ \{\Gamma : \CC\}\ (A : \Ty\ \Gamma) = \sum_{a: \bl{Tm}\ \Gamma} (pr_1\ a = A)$$
+  \end{block}
+\end{frame}
+
+\begin{frame}{first part of the equivalence}
+  \metroset{block=fill}
+  \begin{block}{tm\_equiv\_inter}
+    $$\bl{tm\_inter}\ \{\Gamma : \CC\}\ (A : \Ty\ \Gamma) \simeq \bl{tm}\ \{\Gamma : \CC\}\ (A : \Ty\ \Gamma)$$
+  \end{block}
+  $$\Rightarrow \text{Just by path induction}$$
+  $$\Leftarrow \text{Just by formation rule of sigma types}$$
+\end{frame}
+\begin{frame}{second part of the equivalence}
+  \metroset{block=fill}
+  \begin{block}{tm\_equiv\_interbis}
+    $$\bl{tm\_inter}\ \{\Gamma : \CC\}\ (A : \Ty\ \Gamma) \simeq \rl{tm}\ \{\Gamma : \CC\}\ (A : \Ty\ \Gamma)$$
+  \end{block}
+  $$\text{So}, \sum_{a: \bl{Tm}\ \Gamma} (pr_1\ a = A) = \sum_{(a : \rl{Tm}\ \Gamma)} (p\ a = A) $$
+  $$\text{Which is just reflexivity, since } \rl{Tm} \defeq \bl{Tm} \text{ and p on term is defined as pr1 cf } $$ 
+  \begin{block}{tm\_equiv}
+    $$\bl{tm}\ \{\Gamma : \CC\}\ (A : \Ty\ \Gamma) \simeq \rl{tm}\ \{\Gamma : \CC\}\ (A : \Ty\ \Gamma)$$
+  \end{block}
+\end{frame}
+
+\begin{frame}{transport of term}
+  \metroset{block=fill}
+  \begin{block}{transport\_tm}
+  $$transportf\_tm\ \{\Gamma :\CC\}\ \{A\ A': \Ty\ \Gamma\}\ (e  : A = A') : tm\ A \simeq tm\ A'$$
+  \end{block}
+  \begin{block}{Equivalence and Transport}
+  For all $\Gamma : \CC$, $A\ ,A' : \Ty\ \Gamma$, $e : A = A'$, $a : \bl{tm}\ A$
+  $$ \rl{transport\_tm}\ e\ (tm\_equiv\ a) = (tm\_equiv\ (\bl{transportf\_tm}\ e\ a))$$
+  \end{block}
+\end{frame}
+\begin{frame}{reindexation of term -- Proof}
+  \begin{itemize}
+    \item Complete proof
+    \item no intermediate step with a $tm\_inter$-like
+    \item Since $\rl{tm\_inter}$ is a Sigma Type with a proposition as the second part, Only $$ pr_1\ \rl{reind\_tm\_inter}\ e\ (tm\_equiv\ a) =  pr_1 (tm\_equiv\ (\bl{reind\_tm}\ e\ a))$$
+    \item and after that just path induction on e
+\end{itemize}
+\end{frame}
+
+\begin{frame}{reindexation of term}
+  \metroset{block=fill}
+  \begin{block}{reind\_tm}
+  $$reind\_tm\ \{\Gamma \Delta :\CC\}\ (A: \Ty\ \Gamma)\  (f :\CC \llbracket \Delta,\Gamma \rrbracket): tm\ A \rightarrow tm\ (reind\_type\ f\ A)$$
+  \end{block}
+  \begin{block}{Equivalence and Transport}
+  For all $\Gamma\ ,\Delta : \CC$, $A : \Ty\ \Gamma$, $f :\CC \llbracket \Delta,\Gamma \rrbracket$, $a : \bl{tm}\ A$
+  $$ \rl{reind\_tm}\ e\ (tm\_equiv\ a) = (tm\_equiv\ (\bl{reind\_tm}\ e\ a))$$
+  \end{block}
+\end{frame}
+
+\begin{frame}{reindexation of term -- Proof}
+  \begin{itemize}
+    \item Complete proof
+    \item intermediate step with a $reind\_tm\_inter$ just like the equivalence.
+    \item Since $\rl{tm\_inter}$ is a Sigma Type with a proposition as the second part, Only $$ pr_1\ \rl{reind\_tm\_inter}\ e\ (tm\_equiv\ a) =  pr_1 (tm\_equiv\ (\bl{reind\_tm}\ e\ a))$$
+    \item Ugly and take a bit of time but work
+\end{itemize}
+\end{frame}
+
+\section{Term and Type equivalence \\ \smalltiny With a category with familly structure as Context}
+\begin{frame}{Global}
+\begin{itemize}
+  \item For now only testing
+  \item But seem harder
+  \item no complete automatic $\Ty$ equivalence
+\end{itemize}
+\end{frame}
+\end{document}
